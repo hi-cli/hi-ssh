@@ -32,15 +32,15 @@ source "${HI_CLI_HOME}/bin/logging"
 function run() {
   cli="'"'"ssh copy id"'"'"
 
-  echo user: $user
+  echo ssh_user: ${ssh_user}
   USER=
-  if [ "$user" != "" ]; then
-    USER="${user}@"
+  if [ "${ssh_user}" != "" ]; then
+    USER="${ssh_user}@"
   fi
 
   PORT=
-  if [ "${port}" != "" ]; then
-    PORT="-p ${port}"
+  if [ "${ssh_port}" != "" ]; then
+    PORT="-p ${ssh_port}"
   fi
 
   if [ "${key}" == "" ]; 
@@ -61,8 +61,8 @@ function run() {
   else
     echo usage: 
     echo $0 host=192.168.0.10 
-    echo $0 user=root hosts='"'"192.168.0.10 192.168.0.11"'"'
-    echo $0 user=root hosts='"'"host1 host2"'"'
+    echo $0 ssh_user=root hosts='"'"192.168.0.10 192.168.0.11"'"'
+    echo $0 ssh_user=root hosts='"'"host1 host2"'"'
   fi
 
   result=$?
