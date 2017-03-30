@@ -1,0 +1,74 @@
+#!/bin/bash
+###############################################################################
+# Project: hi-cli
+# Description: The cross platform development toolkit - hi-cli
+# Author: John Deng (john.deng@outlook.com)
+#
+# Copyright (c) 2014-2017 John Deng (john.deng@outlook.com)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: John Deng (john.deng@outlook.com)
+# Updated: Sun Mar 26 20:37:50 CST 2017
+# Module: ssh
+# Submodule: copy
+# Command: id
+###############################################################################
+
+source "${HI_CLI_HOME}/bin/colors"
+#source "${HI_CLI_HOME}/bin/clap"
+source "${HI_CLI_HOME}/bin/logging"
+###############################################################################
+function run() {
+  cli="'"'"ssh copy id"'"'"
+
+  echo user: $user
+  USER=
+  if [ "$user" != "" ]; then
+    USER="${user}@"
+  fi
+
+  PORT=
+  if [ "${port}" != "" ]; then
+    PORT="-p ${port}"
+  fi
+
+  if [ "${key}" == "" ]; 
+  then
+    key="${HOME}/.ssh/id_rsa.pub"
+  fi
+
+  if [ "${host}" != "" ];then
+    log_debug "host: ${host}"
+    ssh-copy-id -i "${key}" ${USER}${host} ${PORT}
+  elif [ "${hosts}" != "" ];then
+    arr=($hosts)
+    for host in "${arr[@]}"
+    do
+      log_debug "host: ${host}"
+      ssh-copy-id -i "${key}" ${USER}${host} ${PORT}
+    done
+  else
+    echo usage: 
+    echo $0 host=192.168.0.10 
+    echo $0 user=root hosts='"'"192.168.0.10 192.168.0.11"'"'
+    echo $0 user=root hosts='"'"host1 host2"'"'
+  fi
+
+  result=$?
+
+  eval $1="\${result}"
+  eval $2="\${cli}"
+}
+
+###############################################################################
