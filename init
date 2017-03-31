@@ -30,8 +30,27 @@ source "${HI_CLI_HOME}/bin/colors"
 source "${HI_CLI_HOME}/bin/logging"
 ###############################################################################
 function run() {
+
   ssh_host=${arg2}
-  cli="ssh ${ssh_user}@${ssh_host} -p ${ssh_port}"
+
+  KEEPALIVE=
+  if [ "${alive}" != "" ]; then
+    KEEPALIVE="-o TCPKeepAlive=yes -o ServerAliveInterval=${alive}"
+  fi
+
+  if [ "${host}" != "" ]; then
+    ssh_host=${host}
+  fi
+
+  if [ "${port}" != "" ]; then
+    ssh_port=${port}
+  fi
+
+  if [ "${ssh_port}" == "" ]; then
+    ssh_port=22
+  fi
+
+  cli="ssh ${KEEPALIVE} ${ssh_user}@${ssh_host} -p ${ssh_port}"
 
   ${cli}
 
