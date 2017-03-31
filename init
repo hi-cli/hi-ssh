@@ -46,6 +46,9 @@ function run() {
     ssh_port=${port}
   fi
 
+  if [ "${ssh_user}" == "" ]; then
+    ssh_user=root
+  fi
   if [ "${ssh_port}" == "" ]; then
     ssh_port=22
   fi
