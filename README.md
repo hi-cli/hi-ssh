@@ -19,8 +19,8 @@ hi package install ssh
 
     2. Copy ssh public key to remote machine(s)
     ```
-    hi ssh copy id host="192.168.1.100"
-    hi ssh copy id hosts="192.168.1.100 192.168.1.101 192.168.1.102"
+    hi ssh copy-id host="192.168.1.100"
+    hi ssh copy-id hosts="192.168.1.100 192.168.1.101 192.168.1.102"
     ```
 
     3. Access reomte host shortcut
